@@ -1,0 +1,40 @@
+{
+  "homepage": "https://github.com/dubeytech-prashant/notes",
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "Make notes of things you wish!",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "frontend": "npm start --prefix frontend",
+    "build": "cd frontend && npm install && npm run build",
+    "deploy": "npm run build && npm run start"
+  },
+  "engines": {
+    "node": "14.17.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dubeytech-prashant/notes.git"
+  },
+  "keywords": [
+    "notes",
+    "React",
+    "NodeJS",
+    "dubeytech",
+    "MERN"
+  ],
+  "author": "dubeytech-prashant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dubeytech-prashant/notes/issues"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.12"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
