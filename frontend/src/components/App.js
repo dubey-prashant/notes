@@ -72,6 +72,7 @@ const App = () => {
   }
   // HANDLE CREATE FUNCTION 
   function handleCreate(body) {
+    setIsLoading(true)
     fetch(dataUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...clientAuthHeader },
