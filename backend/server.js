@@ -17,9 +17,6 @@ mongoose.connect(process.env.MONGO_DB_URL, {
   .catch(err => console.log(err))
 // connection end
 
-// Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, '../frontend/build')))
-
 //Routes
 app.get('/api/notes', clientAuth, (req, res) => {
   console.log("get api/notes")
@@ -56,10 +53,16 @@ app.delete('/api/notes/:id', clientAuth, (req, res) => {
     })
 })
 
-// All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
-})
+if (process.env.NODE_ENV == 'production') {
+
+  // Have Node serve the files for our built React app
+  app.use(express.static(path.resolve(__dirname, '../frontend/build')))
+
+  // All other GET requests not handled before will return our React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+  })
+}
 
 //Authenticate the request
 function clientAuth(req, res, next) {
