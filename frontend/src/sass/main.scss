@@ -1,0 +1,25 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Montserrat", sans-serif;
+  min-height: 100%;
+}
+
+body {
+  background: #eee;
+  background-image: url("./images/brushed-alum-dark.png");
+  padding: 0 16px;
+}
+
+@import "./components/loadAndError.scss";
+@import "./components/header.scss";
+@import "./components/footer.scss";
+@import "./components/Note.scss";
+@import "./components/CreateNote.scss";

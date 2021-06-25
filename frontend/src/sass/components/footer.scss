@@ -1,0 +1,19 @@
+//  Footer 
+.foot-fixed-extra {
+  height: 50px;
+}
+
+footer {
+  height: 2.5rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  p {
+    color: $primaryColor;
+    font-weight: 900;
+  }
+
+}

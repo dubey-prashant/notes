@@ -1,7 +1,7 @@
 {
   "homepage": "https://github.com/dubeytech-prashant/notes",
   "name": "notes",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Make notes of things you wish!",
   "main": "backend/server.js",
   "scripts": {
@@ -30,8 +30,14 @@
     "url": "https://github.com/dubeytech-prashant/notes/issues"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.12.12"
+    "express-session": "^1.17.2",
+    "mongoose": "^5.12.12",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"

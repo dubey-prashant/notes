@@ -1,108 +1,72 @@
+import Header from './partials/Header'
+import Footer from './partials/Footer'
+import NotFound from './partials/NotFound'
+import Register from './auth/Register'
+import Login from './auth/Login'
+import Main from './Main'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import Header from './Header'
-import Footer from './Footer'
-import Note from './Note'
-import CreateNote from './CreateNote'
-import Loader from 'react-loading'
+
+const clientAuthHeader = {
+  reactauthclientid: process.env.REACT_APP_CLIENT_ID,
+  reactauthclientpass: process.env.REACT_APP_CLIENT_PASS
+}
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [notes, setNotes] = useState([])
-  const [error, setError] = useState()
-  const dataUrl = '/api/notes'
-  const clientAuthHeader = {
-    reactauthclientid: process.env.REACT_APP_CLIENT_ID,
-    reactauthclientpass: process.env.REACT_APP_CLIENT_PASS
-  }
+  const [userData, setUserData] = useState({})
+  const [viewProfile, setViewProfile] = useState(false)
+
   useEffect(() => {
-    getNotes()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    function getUserData() {
+      fetch('/api/user', {
+        headers: clientAuthHeader,
+        credentials: "include"
+      })
+        .then(res => { return res.json() })
+        .then(userData => {
+          console.log(userData)
+          setUserData(userData)
+        })
+        .catch(err => {
+          console.log(err)
+          alert(err.message)
+        })
+    }
+    getUserData()
   }, [])
 
   return (
-    <div className="App">
-      <Header />
-      {isLoading && <div className="loaderDiv">
-        <Loader className="loader" type="spokes" color="#f5ba13" />
-      </div>}
-      {error && <div className="error">{error}</div>}
-
-      { !isLoading &&
-        <div className="content">
-          {!error &&
-            <div>
-              <CreateNote handleCreate={handleCreate} />
-              <div className="note-container">
-                {notes &&
-                  notes.map(note => {
-                    return <Note key={note._id} note={note} handleDelete={handleDelete} />
-                  })}
-              </div>
-            </div>
-          }
-        </div>
-      }
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header
+          user={userData}
+          viewProfile={viewProfile}
+          setViewProfile={setViewProfile}
+        />
+        <Switch>
+          <Route exact path="/">
+            {!userData &&
+              <Redirect to="/login" />
+            }
+            {userData &&
+              <Main profile={userData} viewProfile={viewProfile} />
+            }
+          </Route>
+          <Route exact path="/register">
+            <Register clientAuthHeader={clientAuthHeader} />
+          </Route>
+          <Route exact path="/login">
+            <Login clientAuthHeader={clientAuthHeader} />
+          </Route>
+          {/* NOT FOUND ROUTE MUST BE IN END TO WORK */}
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
   )
-
-  // GET NOTES FUNCTION 
-  function getNotes() {
-    setInterval(() => {
-      fetch(dataUrl, {
-        headers: { ...clientAuthHeader }
-      }).then(res => {
-        if (!res.ok) {
-          throw new Error('Unable to reach server!')
-        } else {
-          return res.json()
-        }
-      }).then(data => {
-        if (data.message) {
-          throw new Error(data.message)
-        }
-        setIsLoading(false)
-        setNotes([...data])
-      }).catch(err => {
-        setIsLoading(false)
-        setError(err.message)
-        console.log(err)
-      })
-    }, 2000)
-  }
-  // HANDLE CREATE FUNCTION 
-  function handleCreate(body) {
-    setIsLoading(true)
-    fetch(dataUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...clientAuthHeader },
-      body: JSON.stringify({ ...body })
-    }).then((res) => {
-      if (res.json().message) {
-        throw new Error(res.json().message)
-      }
-      getNotes()
-    }).catch(err => {
-      console.log(err.message)
-      getNotes()
-    })
-  }
-  // HANDLE DELETE FUNCTION
-  function handleDelete(id) {
-    setIsLoading(true)
-    fetch(`${dataUrl}/${id}`, {
-      method: "DELETE",
-      headers: { ...clientAuthHeader }
-    }).then((res) => {
-      if (res.json().message) {
-        throw new Error(res.json().message)
-      }
-      getNotes()
-    })
-      .catch(err => {
-        console.log(err.message)
-        getNotes()
-      })
-  }
 }
+
 export default App

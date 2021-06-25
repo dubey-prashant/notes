@@ -1,0 +1,67 @@
+.note-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @include mQ(720px) {
+    display: block;
+    padding: 0 5%;
+  }
+}
+
+.Note {
+  align-self: flex-start;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px 10px 46px;
+  // 46 for delete icon to fit in
+  flex: 1 1 280px;
+  margin: 16px;
+  position: relative;
+  min-width: 280px;
+
+  &:hover {
+    box-shadow: 5px 5px 8px #555;
+  }
+
+  h1 {
+    font-size: 1.1em;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: 1.1em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+
+    .view-more {
+      color: #555;
+    }
+  }
+
+  button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: $primaryColor;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  @include mQ(720px) {
+    min-width: 100px;
+    width: 100%;
+    margin: 16px auto;
+
+    h1,
+    p {
+      font-size: 1em;
+    }
+  }
+
+}

@@ -12,7 +12,7 @@ const CreateNote = ({ handleCreate }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputVal((prev) => {
+    setInputVal(prev => {
       return {
         ...prev,
         [name]: value
