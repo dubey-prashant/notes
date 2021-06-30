@@ -1,38 +1,48 @@
+//  IMPORT REACT COMPONENTS
 import Header from './partials/Header'
 import Footer from './partials/Footer'
 import NotFound from './partials/NotFound'
-import Register from './auth/Register'
-import Login from './auth/Login'
+import Auth from './auth/Auth'
 import Main from './Main'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
+//  USED BY THE SERVER TO VERIFY CLIENT REQUESTS
 const clientAuthHeader = {
   reactauthclientid: process.env.REACT_APP_CLIENT_ID,
   reactauthclientpass: process.env.REACT_APP_CLIENT_PASS
 }
 
+//  APP COMPONENT 
 const App = () => {
   const [userData, setUserData] = useState({})
   const [viewProfile, setViewProfile] = useState(false)
+  const [viewRegister, setViewRegister] = useState(false)
 
+  //  fetch THE USER FROM SERVER OR REDIRECT TO './authenticate'
   useEffect(() => {
     function getUserData() {
       fetch('/api/user', {
         headers: clientAuthHeader,
         credentials: "include"
       })
-        .then(res => { return res.json() })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('CANNOT REACH THERE!!')
+          }
+          return res.json()
+        })
         .then(userData => {
-          console.log(userData)
           setUserData(userData)
         })
         .catch(err => {
-          console.log(err)
-          alert(err.message)
+          console.log("App error : ", err)
         })
     }
     getUserData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -42,27 +52,37 @@ const App = () => {
           user={userData}
           viewProfile={viewProfile}
           setViewProfile={setViewProfile}
+          viewRegister={viewRegister}
+          setViewRegister={setViewRegister}
         />
         <Switch>
           <Route exact path="/">
-            {!userData &&
-              <Redirect to="/login" />
+            {!userData.name &&
+              <Auth
+                setUser={setUserData}
+                clientAuthHeader={clientAuthHeader}
+                viewRegister={viewRegister}
+                toast={toast}
+              />
             }
-            {userData &&
-              <Main profile={userData} viewProfile={viewProfile} />
+            {userData.name &&
+              <Main
+                user={userData}
+                setUser={setUserData}
+                viewProfile={viewProfile}
+                toast={toast}
+              />
             }
-          </Route>
-          <Route exact path="/register">
-            <Register clientAuthHeader={clientAuthHeader} />
-          </Route>
-          <Route exact path="/login">
-            <Login clientAuthHeader={clientAuthHeader} />
           </Route>
           {/* NOT FOUND ROUTE MUST BE IN END TO WORK */}
           <Route path="*">
             <NotFound />
           </Route>
         </Switch>
+        {/* //  ALERT FOR ERROR/SUCCESS IN AUTHENTICATION */}
+        <ToastContainer
+          position="bottom-center"
+        />
         <Footer />
       </div>
     </Router>

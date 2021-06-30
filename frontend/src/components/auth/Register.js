@@ -1,10 +1,7 @@
-import { useHistory } from "react-router-dom"
 import { useState } from 'react'
 
-const Register = ({ clientAuthHeader }) => {
-  const history = useHistory()
+const Register = ({ setUser, clientAuthHeader, toast }) => {
 
-  const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   //  REGISTER USER FUNCTION
@@ -29,22 +26,23 @@ const Register = ({ clientAuthHeader }) => {
         console.log("data:\n", data)
         if (data.message) {
           setIsLoading(false)
-          setError(data.message)
+          toast.error(data.message)
         } else {
           setIsLoading(false)
-          history.push('/')
+          toast.success('Registered succesfully!', { autoClose: 2000 })
+          setUser(data)
         }
       }).catch(err => {
         setIsLoading(false)
-        setError(err.message)
         console.log(err)
       })
   }
   return (
-    <div className="Register">
+    <>
+
       <h1 className="page-title">Register</h1>
       <form onSubmit={e => registerUser(e)}>
-        {error && <div className="form-error">{error}</div>}
+
         <input
           name="username"
           type="text"
@@ -60,13 +58,15 @@ const Register = ({ clientAuthHeader }) => {
         <input
           name="userpass"
           type="password"
-          placeholder=" Create a strong password"
+          placeholder="Create a strong password"
           required
         />
         {!isLoading && <button type="submit"> Register </button>}
         {isLoading && <button type="submit" disabled > Signing up... </button>}
+
       </form>
-    </div>
+
+    </>
   )
 }
 

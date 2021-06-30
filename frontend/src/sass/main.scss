@@ -13,13 +13,32 @@ html {
 }
 
 body {
-  background: #eee;
+  background: #fff;
   background-image: url("./images/brushed-alum-dark.png");
-  padding: 0 16px;
 }
 
-@import "./components/loadAndError.scss";
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include mQ(1200px) {
+    padding: 32px;
+  }
+
+  @include mQ(720px) {
+    padding: 16px;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+@import "./components/Loader&NotFound.scss";
 @import "./components/header.scss";
 @import "./components/footer.scss";
-@import "./components/Note.scss";
+@import "./components/Auth.scss";
 @import "./components/CreateNote.scss";
+@import "./components/NoteList.scss";
+@import "./components/Profile.scss";

@@ -9,12 +9,16 @@ const cors = require('cors')
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cors({
-  // Sets Access-Control-Allow-Origin to the UI URI
-  origin: 'http://localhost:3000',
-  // Sets Access-Control-Allow-Credentials to true
-  credentials: true,
-}))
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(cors({
+    // Sets Access-Control-Allow-Origin to the UI URI
+    origin: 'http://localhost:3000',
+    // Sets Access-Control-Allow-Credentials to true
+    credentials: true,
+  }))
+}
+
 // connecting to mongoDB using mongoose
 mongoose.connect(process.env.MONGO_DB_URL, {
   useCreateIndex: true,
@@ -35,7 +39,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passportConfig')
 
-app.use("/auth", clientAuth, require("./routes/authRoutes"))
+app.use("/auth", require("./routes/authRoutes"))
 app.use("/api", clientAuth, isVerified, require("./routes/apiRoutes"))
 
 // Have Node serve the files for our built React app

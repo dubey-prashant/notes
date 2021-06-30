@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import AddIcon from "@material-ui/icons/Add"
 import IconButton from "@material-ui/core/IconButton"
-import Zoom from "@material-ui/core/Zoom"
 
 const CreateNote = ({ handleCreate }) => {
   const [inputVal, setInputVal] = useState({
@@ -12,7 +11,7 @@ const CreateNote = ({ handleCreate }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputVal(prev => {
+    setInputVal((prev) => {
       return {
         ...prev,
         [name]: value
@@ -52,11 +51,11 @@ const CreateNote = ({ handleCreate }) => {
           placeholder="Take a note..."
           rows={expand ? 3 : 1}
         />
-        <Zoom in={expand}>
-          <IconButton onClick={submitNote}>
+        {expand &&
+          <IconButton onClick={e => submitNote(e)}>
             <AddIcon />
           </IconButton>
-        </Zoom>
+        }
       </form>
     </div>
   )

@@ -8,15 +8,24 @@ const afterLocalAuth = (strategy, req, res, next) => {
     if (!user) return res.status(401).json(info)
     req.logIn(user, err => {
       if (err) return next(err)
-      return res.json(user)
+      return res.json({
+        user_id: user._id,
+        name: user.name,
+        email: user.email,
+        profileImg: user.profileImg
+      })
     })
   })(req, res, next)
 }
+
 //  REDIRECT AFTER Oauth AUTHENTICATION 
 const afterOAuth = {
-  successRedirect: "/auth/success",
+  successRedirect: "/", // Redirect to homepage of frontend
   failureRedirect: "/auth/failure"
 }
+//  FAILURE REDIRECT
+router.get("/failure", (req, res) => res.json({ error: "Authentication falied" }))
+
 //  LOCAL AUTH BY PASSPORT
 router.post("/register", (req, res, next) => afterLocalAuth("register", req, res, next))
 router.post("/login", (req, res, next) => afterLocalAuth("login", req, res, next))
@@ -25,11 +34,10 @@ router.post("/login", (req, res, next) => afterLocalAuth("login", req, res, next
 router.get("/google", passport.authenticate('google', { scope: ['profile', 'email'] }))
 router.get("/google/redirect", passport.authenticate('google', afterOAuth))
 
-//  SUCCESS REDIRECT
-router.get("/success", (req, res) => {
-  res.json(req.user)
-})
-//  FAILURE REDIRECT
-router.get("/failure", (req, res) => res.status(404).json({ error: "Authentication falied" }))
 
+//  LOGOUT 
+router.get("/logout", (req, res) => {
+  req.logout()
+  res.json({ success: "Logged out successfully!" })
+})
 module.exports = router

@@ -1,25 +1,30 @@
-.note-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+.NotesList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+
+  @include mQ(900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @include mQ(720px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mQ(500px) {
     display: block;
     padding: 0 5%;
   }
+
 }
 
 .Note {
-  align-self: flex-start;
   background: #fff;
   border-radius: 7px;
   box-shadow: 0 2px 5px #ccc;
   padding: 10px 10px 46px;
   // 46 for delete icon to fit in
-  flex: 1 1 280px;
-  margin: 16px;
   position: relative;
-  min-width: 280px;
 
   &:hover {
     box-shadow: 5px 5px 8px #555;
@@ -53,8 +58,7 @@
     outline: none;
   }
 
-  @include mQ(720px) {
-    min-width: 100px;
+  @include mQ(500px) {
     width: 100%;
     margin: 16px auto;
 

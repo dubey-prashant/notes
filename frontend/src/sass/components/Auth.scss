@@ -1,0 +1,100 @@
+$google-blue: #1669F2;
+$blue: #00f;
+$green: #0f0;
+
+.Auth {
+  text-align: center;
+  max-width: 300px;
+  margin: 0 auto;
+
+  h1 {
+    margin: 50px auto 20px;
+  }
+
+  form {
+    input {
+      font-size: 1.2em;
+      font-family: inherit;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      margin: 10px auto;
+      padding: 10px;
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .25);
+
+      @include mQ(500px) {
+        font-size: 1em;
+      }
+    }
+
+    button {
+      padding: 5px 10px;
+      margin: 20px 0 0;
+      color: #000;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .25);
+
+      &:hover {
+        box-shadow: 0 0 10px #000;
+      }
+
+      &:disabled {
+        background: #ddd;
+      }
+    }
+  }
+
+  hr {
+    width: 60%;
+    border: 1px solid #aaa;
+    margin: 30px auto;
+  }
+
+  .GoogleAuth {
+    margin: auto;
+    text-decoration: none;
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #fff;
+      border-radius: 5px;
+      border: 2px solid $blue;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .25);
+
+      font-size: 20px;
+      font-weight: 700;
+      color: $blue;
+
+      @include mQ(500px) {
+        padding: 8px;
+      }
+
+      span {
+        height: 30px;
+
+        img {
+          width: 30px;
+        }
+
+      }
+
+      &:hover {
+        box-shadow: 0 0 15px $google-blue;
+      }
+
+      &:active {
+        background: #eee;
+      }
+    }
+
+  }
+}

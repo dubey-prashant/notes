@@ -1,10 +1,7 @@
-import { useHistory } from "react-router-dom"
 import { useState } from 'react'
 
-const Login = ({ clientAuthHeader }) => {
-  const history = useHistory()
+const Login = ({ setUser, clientAuthHeader, toast }) => {
 
-  const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   //  LOGIN USER FUNCTION
@@ -22,28 +19,27 @@ const Login = ({ clientAuthHeader }) => {
       method: "POST",
       headers: { ...clientAuthHeader, 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
-    })
-      .then(res => res.json())
+    }).then(res => res.json())
       .then(data => {
-        console.log("data:\n", data)
+
         if (data.message) {
           setIsLoading(false)
-          setError(data.message)
+          toast.error(data.message)
         } else {
           setIsLoading(false)
-          history.push('/')
+          toast.success('Logged in succesfully!', { autoClose: 2000 })
+          setUser(data)
         }
       }).catch(err => {
-        setIsLoading(false)
-        setError(err.message)
         console.log(err)
+        setIsLoading(false)
       })
   }
+
   return (
-    <div className="Login">
+    <>
       <h1 className="page-title">Login</h1>
       <form onSubmit={e => registerUser(e)}>
-        {error && <div className="form-error">{error}</div>}
 
         <input
           name="useremail"
@@ -54,14 +50,14 @@ const Login = ({ clientAuthHeader }) => {
         <input
           name="userpass"
           type="password"
-          placeholder=" Create a strong password"
+          placeholder="Enter your password"
           required
         />
 
         {!isLoading && <button type="submit"> Login </button>}
         {isLoading && <button type="submit" disabled >Logging in...</button>}
       </form>
-    </div>
+    </>
   )
 }
 

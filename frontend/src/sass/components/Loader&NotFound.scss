@@ -12,22 +12,11 @@
   align-items: center;
 }
 
-.error {
-  @extend .loaderDiv;
-  color: red;
-  font-weight: 900;
-  font-size: 20px;
-
-  @include mQ(720px) {
-    width: 600px;
-    margin-left: -300px;
-  }
-}
-
 .NotFound {
   text-align: center;
 
   h1 {
+    color: #f00;
     margin: 100px 0;
     font-size: 100px;
     font-weight: 900;
@@ -46,12 +35,13 @@
     font-weight: 700;
     padding: 7px;
     border-radius: 5px;
-    border: 5px solid #fff;
+    border: 2px solid #fff;
+    padding: 10px;
+    box-shadow: 0 0 5px #000;
 
     &:hover {
       background: lighten($primaryColor, 20);
-      border: 2px solid #fff;
-      padding: 10px;
+      box-shadow: 0 0 15px #000;
     }
 
   }

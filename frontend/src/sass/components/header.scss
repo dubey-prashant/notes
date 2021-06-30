@@ -1,49 +1,96 @@
 $headerPaddingTB: 16px;
 $headerPaddingLR: 32px;
 
+@mixin headerBtn {
+  position: absolute;
+  top: $headerPaddingTB - 5;
+  right: $headerPaddingLR - 5;
+}
+
 header {
   background-color: $primaryColor;
   background-image: url("./images/clean-textile.png");
-  margin: auto -16px;
-  padding: $headerPaddingTB $headerPaddingLR;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  position: relative;
 
-  h1 {
-    color: $secondaryColor;
-    font-family: "McLaren", cursive;
-    font-weight: 200;
-    line-height: 50px;
-  }
-
-  .my-notes {
-    display: inline-block;
-    background-size: contain;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: $headerPaddingTB;
-    right: $headerPaddingLR;
-  }
-
-  .profile-photo {
-    @extend .my-notes;
-    background-color: #ddd;
-    border: 4px solid #0f0;
-  }
-
-  @include mQ(500px) {
-    $headerPaddingTB: 10px;
-    $headerPaddingLR: 14px;
+  .headerContainer {
+    @extend .container;
     padding: $headerPaddingTB $headerPaddingLR;
+    position: relative;
+    margin: 0 auto;
 
-    .profile-photo {
-      top: ($headerPaddingTB + 2.5px);
-      right: ($headerPaddingLR + 2.5px);
-      width: 45px;
-      height: 45px;
+    h1 {
+      color: $secondaryColor;
+      font-family: "McLaren", cursive;
+      font-weight: 200;
+      line-height: 50px;
+      font-size: 50px;
     }
 
+    .auth-btn {
+      @include headerBtn;
+      font-family: 'Courier New', Courier, monospace;
+      background: #ddd;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 2px;
+      padding: 5px;
+      margin: 13px 10px 0;
+      border: 2px solid #fff;
+      border-radius: 5px;
+
+      &:hover {
+        background: #000;
+        color: #fff;
+
+      }
+    }
+
+    .my-notes {
+      @include headerBtn;
+      display: inline-block;
+      background-size: contain;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+    }
+
+    .profile-photo {
+      @extend .my-notes;
+      background-color: #ddd;
+      border: 3px solid #C0C0C0;
+    }
+
+    @include mQ(500px) {
+
+      $headerPaddingTB: 10px;
+      $headerPaddingLR: 14px;
+      padding: $headerPaddingTB $headerPaddingLR;
+
+      h1 {
+        line-height: 50px;
+        font-size: 34px;
+      }
+
+      .profile-photo,
+      .my-notes {
+        top: ($headerPaddingTB);
+        right: ($headerPaddingLR);
+        width: 50px;
+        height: 50px;
+      }
+
+      .auth-btn {
+        top: ($headerPaddingTB);
+        right: ($headerPaddingLR);
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 18px;
+        letter-spacing: normal;
+        padding: 2px 5px;
+        margin: 12px 0;
+        border: 2px solid #fff;
+      }
+    }
   }
 }
