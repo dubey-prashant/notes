@@ -75,7 +75,7 @@ const Main = ({ viewProfile, user, setUser, toast }) => {
   )
   // HANDLE CREATE FUNCTION 
   function handleCreate(noteData) {
-    fetch('http://localhost:5000/api/notes', {
+    fetch('/api/notes', {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json", ...clientAuthHeader },

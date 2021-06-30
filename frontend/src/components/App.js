@@ -81,7 +81,7 @@ const App = () => {
         </Switch>
         {/* //  ALERT FOR ERROR/SUCCESS IN AUTHENTICATION */}
         <ToastContainer
-          position="bottom-center"
+          position="top-center"
         />
         <Footer />
       </div>
