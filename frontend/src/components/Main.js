@@ -110,7 +110,6 @@ const Main = ({ viewProfile, user, setUser, toast }) => {
       if (data.error) {
         console.log("error data: ", data)
       } else {
-        console.log("success data: ", data)
         setNotes(data)
       }
       console.log("data: ", data)
