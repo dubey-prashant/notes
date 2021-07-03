@@ -25,8 +25,9 @@ mongoose.connect(process.env.MONGO_DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
-}).then(() => app.listen(process.env.PORT, () => console.log('working BOSS!')))
-  .catch(err => console.log(err))
+}).then(() => {
+  app.listen(process.env.PORT, () => console.log('working BOSS!'))
+}).catch(e => console.log(e))
 // connection end
 
 app.use(session({
